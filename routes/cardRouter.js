@@ -10,4 +10,10 @@ const cardController = require("../controller/cardController");
 //router.patch cardController.updateCollection ?
 //router.delete cardController.deleteCard
 
+router.get("/", cardController.getCardList);
+router.get("/expansion", cardController.getExpansion);
+router.get("/collection", cardController.showCollection);
+router.post("/:id",cardController.saveCardToCollection);
+router.delete("/:id",cardController.deleteCard);
+
 module.exports = router;
