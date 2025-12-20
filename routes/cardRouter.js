@@ -1,9 +1,13 @@
 const express = require("express");
-const router = express.Router();
+const { Router } = require("express");
+const router = Router();
 const cardController = require("../controller/cardController");
 
-// router.get("/import/:id",cardController.importCard);
-
-// router.get("/",cardController.getAllCards);
+//router.get cardController.getCard
+//router.get cardController.getExpansion
+//router.get cardController.showCollection
+//router.post cardController.saveCardToCollection
+//router.patch cardController.updateCollection ?
+//router.delete cardController.deleteCard
 
 module.exports = router;
