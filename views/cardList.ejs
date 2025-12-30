@@ -1,11 +1,11 @@
 <html>
     <body>
-        <% cardInfo.forEach(card=>{ %>
+        <% cardList.forEach(card => { %>
             <div class="card-info">
                 <img src="<%= card.picture%>" alt="card image">
                 <h2><%= card.name %></h2>
-                <h2><%= card.expansion %></h2>
-                <p><%= card.price %></p>
+                <h2><%= card.set.name %></h2>
+                <p><%= card.tcgplayer.prices.holofoil.market %></p>
             </div>
         <% }); %>
     </body>

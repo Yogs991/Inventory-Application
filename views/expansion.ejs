@@ -1,0 +1,12 @@
+<html>
+    <body>
+        <div>
+             <% expansionData.forEach(expansion=>{ %>
+                <div class="expansion-info">
+                    <img src="<%= expansion.images.logo %>" alt="expansion-image">
+                    <h2><%= expansion.name %></h2>
+                </div>
+             <% }); %>
+        </div>
+    </body>
+</html>

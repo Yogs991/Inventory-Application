@@ -4,11 +4,11 @@ const db = require("../db/queries");
 // fetches from API a list of pokemon based on name searched e.g. Charizard
 async function getCardList(req, res){
     try {
-        const cardName = req.param.name;
+        const cardName = req.query.name;
         const pageSize = 250;
         const page = 1;
         const cardList = await pokemonAPI.fetchCardsByName(cardName, pageSize, page);
-        res.send(cardList);
+        res.render("cardList",cardList);
     } catch (error) {
         console.log(error);
     }
@@ -19,7 +19,7 @@ async function getExpansion(req, res){
     try {
         const expansionId = req.param.id;
         const expansionData = await pokemonAPI.fetchSetFromAPI(expansionId);
-        res.send(expansionData);        
+        res.render("expansion",expansionData);        
     } catch (error) {
         console.log(error);
     }
@@ -32,16 +32,19 @@ async function showCollection(req, res){
     const cardInfo = cards.map(card=>({
         name: card.name,
         price: card.price,
-        picture: card.picture
+        picture: card.picture,
+        expansion: card.expansionId
     }));
-    res.send(cardInfo);
+    res.render("collection",cardInfo);
 }
 
 // saves a card in database
 async function saveCardToCollection(req, res){
     const {cardId, cardName, cardPicture, cardPrice, expansionId} = req.body;
     const saveCard = await db.saveCardToDatabase(cardId, cardName, cardPicture, cardPrice, expansionId);
-    res.send(saveCard);
+    // res.send(saveCard);
+    console.log("Card saved to db: ", saveCard);    
+    res.redirect("/collection");
 }
 
 //update card info - probably the price based on market value
