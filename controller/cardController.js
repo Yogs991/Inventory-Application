@@ -3,21 +3,36 @@ const db = require("../db/queries");
 
 // fetches from API a list of pokemon based on name searched e.g. Charizard
 async function getCardList(req, res){
+    const cardName = req.query.name;
+    if(!cardName){
+        return res.render("cardList", {cardList: [], error: null});
+    }
     try {
-        const cardName = req.query.name;
-        const pageSize = 250;
+        const pageSize = 10;
         const page = 1;
         const cardList = await pokemonAPI.fetchCardsByName(cardName, pageSize, page);
-        res.render("cardList",cardList);
+        res.render("cardList", {cardList, error: null});
+        console.log("card list is:",cardList);        
     } catch (error) {
-        console.log(error);
+        console.error("Controller caught: ", error.message);
+        if(error.message.includes("HTTP_504")){
+            return res.render("cardList",{
+                cardList: [],
+                error: "Pokemon API timed out. Please try again"
+            });
+        }
+
+        res.render("cardList",{
+            cardList: [],
+            error: "Something went wrong"
+        });
     }
 }
 
 //fetches from API all cards from searched expansion e.g. Pokemon Scarlet & Violet - Black Bolt
 async function getExpansion(req, res){
     try {
-        const expansionId = req.param.id;
+        const expansionId = req.params.id;
         const expansionData = await pokemonAPI.fetchSetFromAPI(expansionId);
         res.render("expansion",expansionData);        
     } catch (error) {
@@ -52,10 +67,11 @@ async function updateCollection(req,res){}
 
 //deletes a card from database
 async function deleteCard(req,res){
-    const cardId = req.param.id;
+    const cardId = req.params.id;
     const cardDelete = await db.deleteCard(cardId);
     res.send(cardDelete);
 }
+
 
 module.exports = {
     getCardList,
@@ -63,5 +79,5 @@ module.exports = {
     showCollection,
     saveCardToCollection,
     updateCollection,
-    deleteCard
+    deleteCard,
 }

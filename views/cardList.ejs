@@ -1,12 +1,22 @@
 <html>
     <body>
-        <% cardList.forEach(card => { %>
-            <div class="card-info">
-                <img src="<%= card.picture%>" alt="card image">
-                <h2><%= card.name %></h2>
-                <h2><%= card.set.name %></h2>
-                <p><%= card.tcgplayer.prices.holofoil.market %></p>
+        <form action="/cardList" method="GET">
+            <input type="text" name="name" placeholder="Search Pokemon (e.g. Pikachu)" required>
+            <button type="submit">Search</button>
+        </form>
+        <% if(cardList && cardList.length >0) {%>
+            <div class="card-list-container">
+                <% cardList.forEach(card => { %>
+                    <div class="card-info">
+                        <img src="<%= card.image%>/low.png" alt="<%= card.name %>">
+                        <h2><%= card.name %></h2>
+                        <h2><%= card.set ? card.set.id : "No set" %></h2>
+                    </div>
+                <% }); %>
             </div>
-        <% }); %>
+        <% } %>
+        <% if(error){ %>
+            <p style="color: red"><%= error %></p>
+        <% } %>
     </body>
 </html>

@@ -10,7 +10,8 @@ router.get('/',(req,res)=>{
 router.get("/cardList", cardController.getCardList);
 router.get("/expansion", cardController.getExpansion);
 router.get("/collection", cardController.showCollection);
-router.post("/cards/:id",cardController.saveCardToCollection);
+router.post("/cardList/:id",cardController.saveCardToCollection);
 router.delete("/collection/:id",cardController.deleteCard);
+
 
 module.exports = router;
