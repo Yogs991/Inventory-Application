@@ -72,6 +72,17 @@ async function deleteCard(req,res){
     res.send(cardDelete);
 }
 
+async function cardDetails(req,res){
+    try{
+        const {id} = req.params;
+        const card = await pokemonAPI.fetchCardFromAPI(id);
+        res.render("cardDetails", {card});
+    }catch(err){
+        console.error(err.message);
+        throw err;
+    }
+}
+
 
 module.exports = {
     getCardList,
@@ -80,4 +91,5 @@ module.exports = {
     saveCardToCollection,
     updateCollection,
     deleteCard,
+    cardDetails
 }

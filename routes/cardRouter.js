@@ -12,6 +12,7 @@ router.get("/expansion", cardController.getExpansion);
 router.get("/collection", cardController.showCollection);
 router.post("/cardList/:id",cardController.saveCardToCollection);
 router.delete("/collection/:id",cardController.deleteCard);
+router.get("/cardDetails/:id", cardController.cardDetails);
 
 
 module.exports = router;

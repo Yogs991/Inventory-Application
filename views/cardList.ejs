@@ -12,6 +12,9 @@
                         <h2><%= card.name %></h2>
                         <h2><%= card.set ? card.set.id : "No set" %></h2>
                     </div>
+                    <div>
+                        <a href="/cardDetails/<%= card.id %>">View Full Details</a>
+                    </div>
                 <% }); %>
             </div>
         <% } %>

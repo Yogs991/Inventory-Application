@@ -1,0 +1,16 @@
+<html>
+    <head>
+        <title><%= card.name %></title>
+    </head>
+    <body>
+        <h1><%= card.name %></h1>
+        <img src="<%= card.image %>/low.png" alt="<%= card.name %>">
+        <% if(card.set){ %>
+            <h2>Set: <%= card.set.name %></h2>    
+        <% } %>
+
+        <p>HP: <%= card.hp %></p>
+        <p>Description: <%= card.description %></p>
+        <a href="/cardList">Back to Search</a>
+    </body>
+</html>
