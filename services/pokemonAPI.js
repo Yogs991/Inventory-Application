@@ -15,9 +15,9 @@ async function fetchCardFromAPI(id){
     }
 }
 
-async function fetchSetFromAPI(id){
+async function fetchSetFromAPI(){
     try{
-        const response = await fetch (`https://api.tcgdex.net/v2/en/sets/${id}`);
+        const response = await fetch (`https://api.tcgdex.net/v2/en/sets`);
         if(!response.ok){
             throw new Error(`HTTP error! status: ${response.status}`);
         }

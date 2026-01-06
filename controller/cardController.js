@@ -15,13 +15,6 @@ async function getCardList(req, res){
         console.log("card list is:",cardList);        
     } catch (error) {
         console.error("Controller caught: ", error.message);
-        if(error.message.includes("HTTP_504")){
-            return res.render("cardList",{
-                cardList: [],
-                error: "Pokemon API timed out. Please try again"
-            });
-        }
-
         res.render("cardList",{
             cardList: [],
             error: "Something went wrong"
@@ -30,11 +23,11 @@ async function getCardList(req, res){
 }
 
 //fetches from API all cards from searched expansion e.g. Pokemon Scarlet & Violet - Black Bolt
-async function getExpansion(req, res){
+async function getSetData(req, res){
     try {
-        const expansionId = req.params.id;
-        const expansionData = await pokemonAPI.fetchSetFromAPI(expansionId);
-        res.render("expansion",expansionData);        
+        // const setId = req.params.id;
+        const setData = await pokemonAPI.fetchSetFromAPI();
+        res.render("set",{setData});        
     } catch (error) {
         console.log(error);
     }
@@ -86,7 +79,7 @@ async function cardDetails(req,res){
 
 module.exports = {
     getCardList,
-    getExpansion,
+    getSetData,
     showCollection,
     saveCardToCollection,
     updateCollection,

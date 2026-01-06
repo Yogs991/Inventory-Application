@@ -1,0 +1,17 @@
+<html>
+    <body>
+        <h1>Sets</h1>
+        <% if(setData && setData.length >0){ %>
+            <div class="set-list-container">
+                <% setData.forEach(set=>{ %>
+                    <div class="set-info">
+                        <a href="">
+                            <img src="<%= set.logo %>.png" alt="<%= set.name %>">
+                        </a>
+                        <p><%= set.name %></p>
+                    </div>
+                <% }); %>
+            </div>
+        <% } %>        
+    </body>
+</html>
