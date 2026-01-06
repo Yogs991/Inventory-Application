@@ -1,0 +1,17 @@
+<html>
+    <body>
+        <title><%= setName %></title>
+        <% if(cards && cards.length>0){ %>
+            <div class="card-list">
+                <% cards.forEach(card=>{ %>
+                    <div class="card">
+                        <img src="<%= card.image %>/low.png" alt="<%= card.name %>">
+                        <p><%= card.name %></p>
+                        <a href="/cardDetails/<%= card.id %>">View Details</a>
+                    </div>
+                <% }); %>
+            </div>
+        <% }%>
+        
+    </body>
+</html>

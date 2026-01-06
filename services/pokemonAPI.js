@@ -29,6 +29,20 @@ async function fetchSetFromAPI(){
     }
 }
 
+async function fetchCardsFromSet(id){
+    try {
+        const response = await fetch(`https://api.tcgdex.net/v2/en/sets/${id}`);
+        if(!response.ok){
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const json = await response.json();
+        console.log(json);
+        return json;
+    } catch (error) {
+        console.log(error.message);        
+    }
+}
+
 async function fetchCardsByName(name, pageSize, page){
     if(!name || !name.trim())return [];
     try{
@@ -36,8 +50,7 @@ async function fetchCardsByName(name, pageSize, page){
         if(!response.ok){
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        const json = await response.json();
-        console.log(json);        
+        const json = await response.json();    
         return json;
     }catch(err){
         console.error("Pokemon API failed:", err.message);
@@ -49,5 +62,6 @@ async function fetchCardsByName(name, pageSize, page){
 module.exports = {
     fetchCardFromAPI,
     fetchSetFromAPI,
+    fetchCardsFromSet,
     fetchCardsByName,
 };

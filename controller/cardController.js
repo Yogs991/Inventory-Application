@@ -2,34 +2,58 @@ const pokemonAPI = require("../services/pokemonAPI");
 const db = require("../db/queries");
 
 // fetches from API a list of pokemon based on name searched e.g. Charizard
-async function getCardList(req, res){
+async function getSearchedCard(req, res){
     const cardName = req.query.name;
     if(!cardName){
-        return res.render("cardList", {cardList: [], error: null});
+        return res.render("card/card", {cardList: [], error: null});
     }
     try {
         const pageSize = 10;
         const page = 1;
         const cardList = await pokemonAPI.fetchCardsByName(cardName, pageSize, page);
-        res.render("cardList", {cardList, error: null});
+        res.render("card/card", {cardList, error: null});
         console.log("card list is:",cardList);        
     } catch (error) {
         console.error("Controller caught: ", error.message);
-        res.render("cardList",{
+        res.render("card/card",{
             cardList: [],
             error: "Something went wrong"
         });
     }
 }
 
-//fetches from API all cards from searched expansion e.g. Pokemon Scarlet & Violet - Black Bolt
-async function getSetData(req, res){
+//fetches data of a specific card
+async function cardDetails(req,res){
+    try{
+        const {id} = req.params;
+        const card = await pokemonAPI.fetchCardFromAPI(id);
+        res.render("card/cardDetails", {card});
+    }catch(err){
+        console.error(err.message);
+        throw err;
+    }
+}
+
+//fetches from API all sets e.g Black Bolt, Paradox Rift, 151
+async function getListOfSets(req, res){
     try {
-        // const setId = req.params.id;
         const setData = await pokemonAPI.fetchSetFromAPI();
-        res.render("set",{setData});        
+        res.render("set/set",{setData});        
     } catch (error) {
-        console.log(error);
+        console.log(error.message);
+    }
+}
+
+async function getCardListFromSet(req,res){
+    try{
+        const {id} = req.params;
+        const setData = await pokemonAPI.fetchCardsFromSet(id);
+        res.render("set/cardList", {
+            cards: setData.cards,
+            setName: setData.name
+        });       
+    }catch(error){
+        console.log(error.message);
     }
 }
 
@@ -43,7 +67,7 @@ async function showCollection(req, res){
         picture: card.picture,
         expansion: card.expansionId
     }));
-    res.render("collection",cardInfo);
+    res.render("collection/collection",{cardInfo});
 }
 
 // saves a card in database
@@ -52,7 +76,7 @@ async function saveCardToCollection(req, res){
     const saveCard = await db.saveCardToDatabase(cardId, cardName, cardPicture, cardPrice, expansionId);
     // res.send(saveCard);
     console.log("Card saved to db: ", saveCard);    
-    res.redirect("/collection");
+    res.redirect("collection/collection");
 }
 
 //update card info - probably the price based on market value
@@ -65,24 +89,15 @@ async function deleteCard(req,res){
     res.send(cardDelete);
 }
 
-async function cardDetails(req,res){
-    try{
-        const {id} = req.params;
-        const card = await pokemonAPI.fetchCardFromAPI(id);
-        res.render("cardDetails", {card});
-    }catch(err){
-        console.error(err.message);
-        throw err;
-    }
-}
 
 
 module.exports = {
-    getCardList,
-    getSetData,
+    getSearchedCard,
+    cardDetails,
+    getListOfSets,
+    getCardListFromSet,
     showCollection,
     saveCardToCollection,
     updateCollection,
     deleteCard,
-    cardDetails
 }

@@ -1,6 +1,7 @@
 <html>
     <body>
-        <form action="/cardList" method="GET">
+        <%- include('../partials/navbar.ejs') %>
+        <form action="/card" method="GET">
             <input type="text" name="name" placeholder="Search Pokemon (e.g. Pikachu)" required>
             <button type="submit">Search</button>
         </form>
