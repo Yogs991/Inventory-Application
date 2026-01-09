@@ -14,7 +14,7 @@ const SQL = `
         name VARCHAR(50) NOT NULL,
         picture VARCHAR(200),
         price DECIMAL(6,2),
-        expansionId VARCHAR(50) NOT NULL,
+        expansionId VARCHAR(50) ON DELETE SET NULL,
         FOREIGN KEY (expansionId) REFERENCES expansion(api_setid)
     );
 

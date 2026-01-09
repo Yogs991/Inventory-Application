@@ -13,14 +13,14 @@ async function getAllCards(){
 }
 
 // saves pokemon expansion e.g. pokemon base set to database
-async function saveExpansionToDatabase(apiExpansionId, name, logo){
-    const {rows} = await pool.query("INSERT INTO expansion(api_setid, name, logo) VALUES($1, $2, $3)",[apiExpansionId, name, logo]);
+async function saveExpansionToDatabase(api_setid, name, logo){
+    const {rows} = await pool.query("INSERT INTO expansion(api_setid, name, logo) VALUES($1, $2, $3) ON CONFLICT (api_setid) DO NOTHING RETURNING *",[api_setid, name, logo]);
     return rows;
 }
 
 // saves card to database
-async function saveCardToDatabase(api_id, name, picture, price, expansionId){
-    const {rows} = await pool.query("INSERT INTO card(api_cardid, name, picture, price, expansionId) VALUES ($1, $2, $3, $4, $5)",[api_id, name, picture, price, expansionId]);
+async function saveCardToDatabase(api_cardid, name, image, price, expansionId){
+    const {rows} = await pool.query("INSERT INTO card(api_cardid, name, picture, price, expansionId) VALUES ($1, $2, $3, $4, $5) ON CONFLICT (api_cardid) DO NOTHING RETURNING *",[api_cardid, name, image, price, expansionId]);
     return rows;
 }
 

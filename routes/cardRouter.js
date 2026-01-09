@@ -11,11 +11,11 @@ router.get("/card", cardController.getSearchedCard);
 router.get("/cardDetails/:id", cardController.cardDetails);
 
 router.get("/set", cardController.getListOfSets);
-router.get("/card/cardList/:id", cardController.getCardListFromSet);
+router.get("/cardList/:id", cardController.getCardListFromSet);
 
 router.get("/collection", cardController.showCollection);
 
-router.post("/cardList/:id",cardController.saveCardToCollection);
+router.post("/card/:id",cardController.saveCardToCollection);
 router.delete("/collection/:id",cardController.deleteCard);
 
 

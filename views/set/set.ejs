@@ -5,11 +5,11 @@
             <div class="set-list-container">
                 <% setData.forEach(set=>{ %>
                     <div class="set-info">
-                        <a href="">
+                        <a href="/cardList/<%= set.id %>">
                             <img src="<%= set.logo %>.png" alt="<%= set.name %>">
                         </a>
                         <p><%= set.name %></p>
-                        <a href="/card/cardList/<%= set.id %>">View Cards</a>
+                        <!-- <a href="/cardList/<%= set.id %>">View Cards</a> -->
                     </div>
                 <% }); %>
             </div>

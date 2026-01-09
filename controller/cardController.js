@@ -72,11 +72,14 @@ async function showCollection(req, res){
 
 // saves a card in database
 async function saveCardToCollection(req, res){
-    const {cardId, cardName, cardPicture, cardPrice, expansionId} = req.body;
+    const {cardId, cardName, cardPicture, cardPrice, expansionId, apiSetId, setName, setLogo} = req.body;
+    let expansionDb = null;
+    if(apiSetId){
+        expansionDb = await db.saveExpansionToDatabase(apiSetId, setName, setLogo);
+    };
     const saveCard = await db.saveCardToDatabase(cardId, cardName, cardPicture, cardPrice, expansionId);
-    // res.send(saveCard);
     console.log("Card saved to db: ", saveCard);    
-    res.redirect("collection/collection");
+    res.redirect("/collection");
 }
 
 //update card info - probably the price based on market value

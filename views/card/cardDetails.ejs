@@ -8,11 +8,13 @@
         <% if(card.set){ %>
             <h2>Set: <%= card.set.name %></h2>    
         <% } %>
-
+        <p style="display:inline;">Market Price: <%= card?.pricing?.cardmarket?.avg30 %>&#8364;</p>
+        <!-- <p style="display: inline;">&#8364;</p> -->
         <p>HP: <%= card.hp %></p>
         <p>Description: <%= card.description %></p>
 
-        <button>Add To Collection</button>
         <a href="/card">Back to Search</a>
+        
+        <%- include('../partials/saveCard.ejs') %>
     </body>
 </html>

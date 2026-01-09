@@ -1,0 +1,15 @@
+<form action="/card/<%= card.id %>" method="POST">
+    <input type="hidden" name="cardId" value="<%= card.id %>">
+    <input type="hidden" name="cardName" value="<%= card.name %>">
+    <input type="hidden" name="cardPicture" value="<%= card.image %>/low.png">
+    <input type="hidden" name="cardPrice" value="<%= card.pricing?.cardmarket?.avg30 ?? 0 %>">
+    <input type="hidden" name="expansionId" value="<%= card.set?.id ?? '' %>">
+
+    <% if(card.set){ %>
+        <input type="hidden" name="apiSetId" value="<%= card.set.id %>">
+        <input type="hidden" name="setName" value="<%= card.set.name %>">
+        <input type="hidden" name="setLogo" value="<%= card.set.logo %>.png">
+    <% } %>
+
+    <button type="submit">Add To Collection</button>
+</form>
