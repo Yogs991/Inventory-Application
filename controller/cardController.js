@@ -11,8 +11,7 @@ async function getSearchedCard(req, res){
         const pageSize = 10;
         const page = 1;
         const cardList = await pokemonAPI.fetchCardsByName(cardName, pageSize, page);
-        res.render("card/card", {cardList, error: null});
-        console.log("card list is:",cardList);        
+        res.render("card/card", {cardList, error: null});       
     } catch (error) {
         console.error("Controller caught: ", error.message);
         res.render("card/card",{
@@ -78,11 +77,11 @@ async function saveCardToCollection(req, res){
         expansionDb = await db.saveExpansionToDatabase(apiSetId, setName, setLogo);
     };
     const saveCard = await db.saveCardToDatabase(cardId, cardName, cardPicture, cardPrice, expansionId);
-    console.log("Card saved to db: ", saveCard);    
+    console.log("Card saved to db succesfully");    
     res.redirect("/collection");
 }
 
-//update card info - probably the price based on market value
+//update card info - probably the price based on market value later on 
 async function updateCollection(req,res){}
 
 //deletes a card from database

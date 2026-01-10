@@ -1,6 +1,7 @@
 <html>
     <body>
         <h1>My Collection</h1>
+        <%- include('../partials/navbar.ejs') %>
         <% cardInfo.forEach(card=>{ %>
             <div class="card-info">
                 <img src="<%= card.picture%>" alt="card image">
