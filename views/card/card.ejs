@@ -1,26 +1,45 @@
 <html>
     <body>
         <%- include('../partials/navbar.ejs') %>
-        <form action="/card" method="GET">
-            <input type="text" name="name" placeholder="Search Pokemon (e.g. Pikachu)" required>
-            <button type="submit">Search</button>
+        <form class="search-form" action="/card" method="GET">
+            <input type="text" name="name" placeholder="Search Pokemon" required>
+            <button type="submit">
+                <img class="search-icon" src="/search_icon.png" alt="search icon">
+            </button>
         </form>
-        <% if(cardList && cardList.length >0) {%>
-            <div class="card-list-container">
-                <% cardList.forEach(card => { %>
-                    <div class="card-info">
-                        <img src="<%= card.image%>/low.png" alt="<%= card.name %>">
-                        <h2><%= card.name %></h2>
-                        <h2><%= card.set ? card.set.id : "No set" %></h2>
-                    </div>
-                    <div>
-                        <a href="/cardDetails/<%= card.id %>">View Full Details</a>
-                    </div>
-                <% }); %>
-            </div>
-        <% } %>
-        <% if(error){ %>
-            <p style="color: red"><%= error %></p>
-        <% } %>
+        <div class="card-list-container">
+            <% if(cardList && cardList.length >0) {%>
+                <div class="card-list">
+                    <% cardList.forEach(card => { %>
+                        <% if(card.image){ %>
+                            <div class="card-info">
+                                <img src="<%= card.image%>/low.png" alt="<%= card.name %>">
+                                <h2><%= card.name %></h2>
+                                <!-- <h2><%#= card.set ? card.set.id : "No set" %></h2> -->
+                                <div class="view-details">
+                                    <a href="/cardDetails/<%= card.id %>">View Full Details</a>
+                                </div>
+                            </div>
+                        <% } %>
+                    <% }); %>
+                </div>
+                <div class="pagination">
+                    <% if(currentPage >1){ %>
+                        <a href="/card?name=<%= searchName %>&page=<%= currentPage-1 %>">
+                            Previous
+                        </a>
+                    <% } %>
+                    <p class="current-page">Page <%= currentPage %></p>
+                    <% if(hasNextPage){ %>
+                        <a href="/card?name=<%= searchName %>&page=<%= currentPage+1 %>">
+                            Next
+                        </a>
+                    <% } %>
+                </div>
+            <% } %>
+            <% if(error){ %>
+                <p style="color: red"><%= error %></p>
+            <% } %>
+        </div>
     </body>
 </html>

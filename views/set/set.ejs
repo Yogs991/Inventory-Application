@@ -1,18 +1,38 @@
 <html>
+    <head>
+        <link rel="stylesheet" href="/css/style.css">
+    </head>
     <body>
-        <h1>Sets</h1>
-        <% if(setData && setData.length >0){ %>
-            <div class="set-list-container">
-                <% setData.forEach(set=>{ %>
-                    <div class="set-info">
-                        <a href="/cardList/<%= set.id %>">
-                            <img src="<%= set.logo %>.png" alt="<%= set.name %>">
-                        </a>
-                        <p><%= set.name %></p>
-                        <!-- <a href="/cardList/<%= set.id %>">View Cards</a> -->
+        <%- include('../partials/navbar.ejs') %>
+        <div class="container">
+            <h1>Sets</h1>
+            <% seriesArray.forEach(series =>{ %>
+                <div class="series-section">
+                    <h2 class="series-title"><%= series.name %></h2>
+                    <div class="sets-grid">
+                        <% series.sets.forEach(set=>{ %>
+                        <div class="set-card">
+                            <a href="/cardList/<%= set.id %>">
+                                <% if(set.logo){ %>
+                                    <img class="set-image" src="<%= set.logo %>.png" alt="<%= set.name %>">
+                                <% }else{ %>
+                                    <img class="no-image" src="/images/placeholder_logo.png" alt="placeholder_logo">
+                                <% } %>
+                            </a>
+                            <p class="set-name"><%= set.name %></p>
+                            <div class="set-info">
+                                    <% if (set.releaseDate) { %>
+                                        <%= new Date(set.releaseDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short' }) %>
+                                    <% } %>
+                                    <% if (set.cardCount && set.cardCount.total) { %>
+                                        <%= set.cardCount.total %> cards
+                                    <% } %>
+                            </div>
+                        </div>    
+                        <% }) %>
                     </div>
-                <% }); %>
-            </div>
-        <% } %>        
+                </div>
+            <% }) %>
+        </div>
     </body>
 </html>

@@ -4,19 +4,32 @@ const db = require("../db/queries");
 // fetches from API a list of pokemon based on name searched e.g. Charizard
 async function getSearchedCard(req, res){
     const cardName = req.query.name;
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = 20;
     if(!cardName){
-        return res.render("card/card", {cardList: [], error: null});
+        return res.render("card/card", {
+            cardList: [],
+            error: null,
+            currentPage: 1,
+            hasNextPage: false
+        });
     }
     try {
-        const pageSize = 10;
-        const page = 1;
         const cardList = await pokemonAPI.fetchCardsByName(cardName, pageSize, page);
-        res.render("card/card", {cardList, error: null});       
+        res.render("card/card", {
+            cardList,
+            error: null,
+            currentPage: page,
+            hasNextPage: cardList.length === pageSize,
+            searchName: cardName
+        });       
     } catch (error) {
         console.error("Controller caught: ", error.message);
         res.render("card/card",{
             cardList: [],
-            error: "Something went wrong"
+            error: "Something went wrong",
+            currentPage: 1,
+            hasNextPage: false
         });
     }
 }
@@ -33,15 +46,40 @@ async function cardDetails(req,res){
     }
 }
 
-//fetches from API all sets e.g Black Bolt, Paradox Rift, 151
+
 async function getListOfSets(req, res){
     try {
         const setData = await pokemonAPI.fetchSetFromAPI();
-        res.render("set/set",{setData});        
-    } catch (error) {
-        console.log(error.message);
+        const groupedBySeries = setData.reduce((acc, set)=>{
+            const series = set.series || "Other";
+            if(!acc[series]){
+                acc[series] = [];
+            }
+            acc[series].push(set);
+            return acc;
+        },{});
+
+        const series = Object.entries(groupedBySeries).map(([series, sets])=>{
+            const sortedSets = sets.sort((a,b)=>{
+                return new Date(b.releaseDate) - new Date(a.releaseDate);
+            });
+
+            const latestDate = sortedSets[0]?.releaseDate || "";
+
+            return {
+                name: series, 
+                sets: sortedSets,
+                latestDate: latestDate
+            }
+        });
+        
+        const seriesArray = series.reverse();
+        res.render("set/set", {seriesArray});
+    } catch (err) {
+        console.error(err);        
     }
 }
+
 
 async function getCardListFromSet(req,res){
     try{
@@ -59,7 +97,6 @@ async function getCardListFromSet(req,res){
 // shows the cards user saved in database
 async function showCollection(req, res){
     const cards = await db.getAllCards();
-    console.log(cards);
     const cardInfo = cards.map(card=>({
         name: card.name,
         price: card.price,

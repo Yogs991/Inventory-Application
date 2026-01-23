@@ -1,20 +1,36 @@
 <html>
     <head>
         <title><%= card.name %></title>
+        <link rel="stylesheet" href="/css/style.css">
     </head>
     <body>
-        <h1><%= card.name %></h1>
-        <img src="<%= card.image %>/low.png" alt="<%= card.name %>">
-        <% if(card.set){ %>
-            <h2>Set: <%= card.set.name %></h2>    
-        <% } %>
-        <p style="display:inline;">Market Price: <%= card?.pricing?.cardmarket?.avg30 %>&#8364;</p>
-        <p>HP: <%= card.hp %></p>
-        <p>Description: <%= card.description %></p>
-        <img src="/delete_icon.png" alt="delete icon">
-
-        <a href="/card">Back to Search</a>
-        
+        <%- include('../partials/navbar.ejs') %>
+        <a class="return-cards" href="/card">Back to Search</a>
+        <div class="card-details-container">
+            <img id="image" src="<%= card.image %>/low.png" alt="<%= card.name %>">   
+            <div class="card-details">
+                <div class="card-details-header">
+                    <h3><%= card.name %></h3>
+                    <% if(card.set){ %>
+                        <div class="card-details-set">
+                            <img src="<%= card.set.symbol %>.png" alt="logo">
+                            <h4><%= card.set.name %></h4>    
+                        </div>
+                    <% } %>
+                    <% if(card.description){ %>
+                        <p>Description:<%= card.description %></p>
+                    <% } %>
+                </div>
+                <div class="card-details-info">
+                    <p style="display:inline;">Market Price: <%= card?.pricing?.cardmarket?.avg30 %>&#8364;</p>
+                    <p><img src="/brush.png" alt="illustrator"> <%= card.illustrator %></p>
+                    <p>Stage: <span><%= card.stage %></span></p>
+                    <p>Type: <%= card.types %></p>
+                </div>
+            </div>
+        </div>
         <%- include('../partials/saveCard.ejs') %>
+
+        
     </body>
 </html>

@@ -16,16 +16,38 @@ async function fetchCardFromAPI(id){
 }
 
 async function fetchSetFromAPI(){
-    try{
-        const response = await fetch (`https://api.tcgdex.net/v2/en/sets`);
-        if(!response.ok){
-            throw new Error(`HTTP error! status: ${response.status}`);
+    try {
+        const seriesResponse = await fetch(`https://api.tcgdex.net/v2/en/series`);
+        if(!seriesResponse.ok){
+            throw new Error(`HTTP error, status: ${seriesResponse.status}`);
         }
-        const json = await response.json();
-        return json;
-    }catch(error){
-        console.log(error);
-        res.status(500).send("Failed to load expansion list");       
+
+        const allSeries = await seriesResponse.json();
+
+        const allSets = [];
+
+        for (const series of allSeries){
+            try {
+                const seriesDetailResponse =  await fetch(`https://api.tcgdex.net/v2/en/series/${series.id}`);
+                if(seriesDetailResponse.ok){
+                    const seriesDetail = await seriesDetailResponse.json();
+                    if(seriesDetail.sets){
+                        seriesDetail.sets.forEach(set=>{
+                            allSets.push({
+                                ...set,
+                                series: series.name,
+                                seriesId: series.id
+                            });
+                        });
+                    }
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }
+        return allSets;
+    } catch (err) {
+        console.error(err);
     }
 }
 
