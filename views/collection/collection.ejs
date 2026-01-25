@@ -4,15 +4,26 @@
     </head>
     <body>
         <%- include('../partials/navbar.ejs') %>
-        <h1>My Collection</h1>
-        <% cardInfo.forEach(card=>{ %>
-            <div class="card-info"> <!-- change class name-->
-                <img src="<%= card.picture%>" alt="card image">
-                <h2><%= card.name %></h2>
-                <h2><%= card.expansion %></h2>
-                <p><%= card.price %></p>
+        <div class="collection-section">
+            <h1>Collection</h1>
+            <div class="collection-container">
+                <% cardInfo.forEach(card=>{ %>
+                    <div class="collection-card-info">
+                        <img src="<%= card.picture%>" alt="card image">
+                        <div class="collection-details">
+                            <div class="collection-card-name">
+                                <h2><%= card.name %></h2>
+                                <p><%= card.price %> &#8364;</p>
+                            </div>
+                            <div class="collection-button">
+                                <form action="/collection/<%= card.id %>" method="post">
+                                    <button type="submit"><img src="/delete_icon.png" alt="delete icon"></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
             </div>
-            <img src="/delete_icon.png" alt="delete icon">
-        <% }); %>
+        </div>
     </body>
 </html>

@@ -16,7 +16,7 @@ router.get("/cardList/:id", cardController.getCardListFromSet);
 router.get("/collection", cardController.showCollection);
 
 router.post("/card/:id",cardController.saveCardToCollection);
-router.delete("/collection/:id",cardController.deleteCard);
+router.post("/collection/:id",cardController.deleteCard);
 
 
 module.exports = router;

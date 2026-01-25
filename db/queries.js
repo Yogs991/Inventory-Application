@@ -37,7 +37,7 @@ async function updateCollection(){
 
 // delete card from database
 async function deleteCard(id){
-    const {rows} = await pool.query("DELETE FROM card WHERE card = $1",[id]);
+    const {rows} = await pool.query("DELETE FROM card WHERE id = $1",[id]);
     return rows;
 }
     

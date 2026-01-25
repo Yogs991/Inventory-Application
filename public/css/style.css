@@ -40,6 +40,7 @@ nav, ul{
     margin-top: 20px;
     text-align: center;
     font-size: 50px;
+    color: whitesmoke;
 }
 
 
@@ -354,6 +355,53 @@ h1{
     .series-title{
         font-size: 22px;
     }
+}
+
+.collection-section{
+    max-width: 1500px;
+    height: auto;
+    /* background-color: red; */
+    display: flex;
+    flex-flow: column wrap;
+    justify-self: center;
+    align-self: center;
+    padding: 0 10px;
+}
+
+.collection-section h1{
+    color: aliceblue;
+    padding-top: 5px;
+}
+
+.collection-container{
+    border-radius: 5px;
+    box-shadow: 2px 8px -4px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px;
+    gap: 20px;
+}
+
+.collection-card-info{
+    margin: 0 10px;
+}
+
+.collection-details{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.collection-card-name h2, p{
+    font-size: 12px;
+}
+
+.collection-button button{
+    background: transparent;
+    border: none;
+    cursor: pointer;
 }
 
 

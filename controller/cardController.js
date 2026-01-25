@@ -98,6 +98,7 @@ async function getCardListFromSet(req,res){
 async function showCollection(req, res){
     const cards = await db.getAllCards();
     const cardInfo = cards.map(card=>({
+        id: card.id,
         name: card.name,
         price: card.price,
         picture: card.picture,
@@ -124,8 +125,12 @@ async function updateCollection(req,res){}
 //deletes a card from database
 async function deleteCard(req,res){
     const cardId = req.params.id;
-    const cardDelete = await db.deleteCard(cardId);
-    res.send(cardDelete);
+    try{
+        await db.deleteCard(cardId);
+        res.redirect("/collection");
+    }catch(err){
+        res.status(500).send("failed to delete card");
+    }
 }
 
 
